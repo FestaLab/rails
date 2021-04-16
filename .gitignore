@@ -4,6 +4,7 @@
 .Gemfile
 .byebug_history
 .ruby-version
+.idea
 /*/doc/
 /*/test/tmp/
 /.bundle
