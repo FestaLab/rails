@@ -12,6 +12,8 @@ require "active_storage/previewer/mupdf_previewer"
 require "active_storage/previewer/video_previewer"
 
 require "active_storage/analyzer/image_analyzer"
+require "active_storage/analyzer/image_analyzer/image_magick"
+require "active_storage/analyzer/image_analyzer/vips"
 require "active_storage/analyzer/video_analyzer"
 
 require "active_storage/service/registry"
