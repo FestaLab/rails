@@ -16,8 +16,11 @@ module ActiveStorage
 
     def metadata
       read_image do |image|
-        (width, height) = image.autorot.size
-        { width: width, height: height }
+        if rotated_image?(image)
+          { width: image.height, height: image.width }
+        else
+          { width: image.width, height: image.height }
+        end
       end
     end
 
@@ -40,6 +43,13 @@ module ActiveStorage
       rescue Vips::Error => error
         logger.error "Skipping image analysis due to an Vips error: #{error.message}"
         {}
+      end
+
+      def rotated_image?(image)
+        orientation = image.get("exif-ifd0-Orientation")
+        orientation.include?("Right-top") || orientation.include?("Left-bottom")
+      rescue ::Vips::Error
+        false
       end
 
       def valid_image?(image)
