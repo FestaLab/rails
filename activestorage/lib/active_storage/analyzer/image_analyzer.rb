@@ -19,9 +19,9 @@ module ActiveStorage
 
     def metadata
       if ActiveStorage.variant_processor == :vips
-        Analyzer::ImageAnalyzer::ImageMagick.new(@blob).metadata
-      else
         Analyzer::ImageAnalyzer::Vips.new(@blob).metadata
+      else
+        Analyzer::ImageAnalyzer::ImageMagick.new(@blob).metadata
       end
     end
   end
