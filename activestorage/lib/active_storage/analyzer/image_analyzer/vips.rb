@@ -21,18 +21,14 @@ module ActiveStorage
           if valid_image?(image)
             yield image
           else
-            puts "============================== Vips does not support this file"
             logger.info "Skipping image analysis because Vips doesn't support the file"
             {}
           end
         end
-      rescue LoadError => error
-        puts "============================== Vips is not installed"
-        puts error
+      rescue LoadError
         logger.info "Skipping image analysis because the ruby-vips gem isn't installed"
         {}
       rescue Vips::Error => error
-        puts "============================== Vips is skipping image"
         logger.error "Skipping image analysis due to an Vips error: #{error.message}"
         {}
       end
