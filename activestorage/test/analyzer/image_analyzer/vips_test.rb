@@ -7,7 +7,7 @@ require "active_storage/analyzer/image_analyzer"
 
 class ActiveStorage::Analyzer::ImageAnalyzer::VipsTest < ActiveSupport::TestCase
   test "analyzing a JPEG image" do
-    analyze_image_with_vips do
+    analyze_with_vips do
       blob = create_file_blob(filename: "racecar.jpg", content_type: "image/jpeg")
       metadata = extract_metadata_from(blob)
 
@@ -17,7 +17,7 @@ class ActiveStorage::Analyzer::ImageAnalyzer::VipsTest < ActiveSupport::TestCase
   end
 
   test "analyzing a rotated JPEG image" do
-    analyze_image_with_vips do
+    analyze_with_vips do
       blob = create_file_blob(filename: "racecar_rotated.jpg", content_type: "image/jpeg")
       metadata = extract_metadata_from(blob)
 
@@ -27,7 +27,7 @@ class ActiveStorage::Analyzer::ImageAnalyzer::VipsTest < ActiveSupport::TestCase
   end
 
   test "analyzing an SVG image without an XML declaration" do
-    analyze_image_with_vips do
+    analyze_with_vips do
       blob = create_file_blob(filename: "icon.svg", content_type: "image/svg+xml")
       metadata = extract_metadata_from(blob)
 
@@ -37,7 +37,7 @@ class ActiveStorage::Analyzer::ImageAnalyzer::VipsTest < ActiveSupport::TestCase
   end
 
   test "analyzing an unsupported image type" do
-    analyze_image_with_vips do
+    analyze_with_vips do
       blob = create_blob(data: "bad", filename: "bad_file.bad", content_type: "image/bad_type")
       metadata = extract_metadata_from(blob)
 
@@ -47,11 +47,13 @@ class ActiveStorage::Analyzer::ImageAnalyzer::VipsTest < ActiveSupport::TestCase
   end
 
   private
-    def analyze_image_with_vips
+    def analyze_with_vips
       previous_processor, ActiveStorage.variant_processor = ActiveStorage.variant_processor, :vips
+      require 'ruby-vips'
+
       yield
     rescue LoadError
-      skip "Variant processor #{processor.inspect} is not installed"
+      ENV["CI"] ? raise : skip("Variant processor vips is not installed")
     ensure
       ActiveStorage.variant_processor = previous_processor
     end
