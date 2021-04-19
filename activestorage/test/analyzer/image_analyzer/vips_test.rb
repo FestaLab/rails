@@ -49,7 +49,7 @@ class ActiveStorage::Analyzer::ImageAnalyzer::VipsTest < ActiveSupport::TestCase
   private
     def analyze_with_vips
       previous_processor, ActiveStorage.variant_processor = ActiveStorage.variant_processor, :vips
-      require 'ruby-vips'
+      require "ruby-vips"
 
       yield
     rescue LoadError
