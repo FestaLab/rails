@@ -33,9 +33,9 @@ module ActiveStorage
         {}
       end
 
+      ROTATIONS = /Right-top|Left-bottom|Top-right|Bottom-left/
       def rotated_image?(image)
-        orientation = image.get("exif-ifd0-Orientation")
-        orientation.include?("Right-top") || orientation.include?("Left-bottom") || orientation.include?("TopRight") || orientation.include?("BottomLeft")
+        ROTATIONS === image.get("exif-ifd0-Orientation")
       rescue ::Vips::Error
         false
       end
