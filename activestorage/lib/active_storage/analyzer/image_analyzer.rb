@@ -19,10 +19,8 @@ module ActiveStorage
 
     def metadata
       if ActiveStorage.variant_processor == :vips
-        puts "============================== Vips selected"
         Analyzer::ImageAnalyzer::Vips.new(@blob).metadata
       else
-        puts "============================== Vips selected"
         Analyzer::ImageAnalyzer::ImageMagick.new(@blob).metadata
       end
     end
