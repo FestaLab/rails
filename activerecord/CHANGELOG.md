@@ -1,6 +1,52 @@
+*   Optimize `remove_columns` to use a single SQL statement.
+
+    ```ruby
+    remove_columns :my_table, :col_one, :col_two
+    ```
+
+    Now results in the following SQL:
+
+    ```sql
+    ALTER TABLE "my_table" DROP COLUMN "col_one", DROP COLUMN "col_two"
+    ```
+
+    *Jon Dufresne*
+
+*   Ensure `has_one` autosave association callbacks get called once.
+
+    Change the `has_one` autosave callback to be non cyclic as well.
+    By doing this the autosave callback are made more consistent for
+    all 3 cases: `has_many`, `has_one`, and `belongs_to`.
+
+    *Petrik de Heus*
+
+*   Add option to disable joins for associations.
+
+    In a multiple database application, associations can't join across
+    databases. When set, this option instructs Rails to generate 2 or
+    more queries rather than generating joins for associations.
+
+    Set the option on a has many through association:
+
+    ```ruby
+    class Dog
+      has_many :treats, through: :humans, disable_joins: true
+      has_many :humans
+    end
+    ```
+
+    Then instead of generating join SQL, two queries are used for `@dog.treats`:
+
+    ```
+    SELECT "humans"."id" FROM "humans" WHERE "humans"."dog_id" = ?  [["dog_id", 1]]
+    SELECT "treats".* FROM "treats" WHERE "treats"."human_id" IN (?, ?, ?)  [["human_id", 1], ["human_id", 2], ["human_id", 3]]
+    ```
+
+    *Eileen M. Uchitelle*, *Aaron Patterson*, *Lee Quarella*
+
 *   Add setting for enumerating column names in SELECT statements.
 
-    Adding a column to a PostgresSQL database, for example, while the application is running can
+    Adding a column to a PostgreSQL database, for example, while the application is running can
     change the result of wildcard `SELECT *` queries, which invalidates the result
     of cached prepared statements and raises a `PreparedStatementCacheExpired` error.
 
@@ -37,14 +83,6 @@
     ```
 
     *Matt Duszynski*
-
-*   Only update dirty attributes once for cyclic autosave callbacks.
-
-    Instead of calling `changes_applied` everytime `save` is called,
-    we can skip it if it has already been called once in the current saving
-    cycle.
-
-    *Petrik de Heus*
 
 *   Allow passing SQL as `on_duplicate` value to `#upsert_all` to make it possible to use raw SQL to update columns on conflict:
 

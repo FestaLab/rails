@@ -1,3 +1,11 @@
+*   Allow loading nested locales in engines.
+
+    *Gannon McGibbon*
+
+*   Ensure `Rails.application.config_for` always cast hashes to `ActiveSupport::OrderedOptions`.
+
+    *Jean Boussier*
+
 *   Remove Rack::Runtime from the default middleware stack and deprecate
     referencing it in middleware operations without adding it back
 

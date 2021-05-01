@@ -796,11 +796,11 @@ module ActiveRecord
       # We check defined?(@attributes) not to issue warnings if the object is
       # allocated but not initialized.
       inspection = if defined?(@attributes) && @attributes
-        self.class.attribute_names.collect do |name|
+        self.class.attribute_names.filter_map do |name|
           if _has_attribute?(name)
             "#{name}: #{attribute_for_inspect(name)}"
           end
-        end.compact.join(", ")
+        end.join(", ")
       else
         "not initialized"
       end
@@ -860,11 +860,9 @@ module ActiveRecord
         @readonly                 = false
         @previously_new_record    = false
         @destroyed                = false
-        @_saving                  = false
         @marked_for_destruction   = false
         @destroyed_by_association = nil
         @_start_transaction_state = nil
-        @_already_called          = {}
 
         klass = self.class
 

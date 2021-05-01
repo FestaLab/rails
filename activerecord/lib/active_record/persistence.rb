@@ -584,17 +584,17 @@ module ActiveRecord
     end
 
     # Returns an instance of the specified +klass+ with the attributes of the
-    # current record. This is mostly useful in relation to single-table
-    # inheritance structures where you want a subclass to appear as the
+    # current record. This is mostly useful in relation to single table
+    # inheritance (STI) structures where you want a subclass to appear as the
     # superclass. This can be used along with record identification in
     # Action Pack to allow, say, <tt>Client < Company</tt> to do something
     # like render <tt>partial: @client.becomes(Company)</tt> to render that
     # instance using the companies/company partial instead of clients/client.
     #
     # Note: The new instance will share a link to the same attributes as the original class.
-    # Therefore the sti column value will still be the same.
+    # Therefore the STI column value will still be the same.
     # Any change to the attributes on either instance will affect both instances.
-    # If you want to change the sti column as well, use #becomes! instead.
+    # If you want to change the STI column as well, use #becomes! instead.
     def becomes(klass)
       became = klass.allocate
 
@@ -609,11 +609,11 @@ module ActiveRecord
       became
     end
 
-    # Wrapper around #becomes that also changes the instance's sti column value.
+    # Wrapper around #becomes that also changes the instance's STI column value.
     # This is especially useful if you want to persist the changed class in your
     # database.
     #
-    # Note: The old instance's sti column value will be changed too, as both objects
+    # Note: The old instance's STI column value will be changed too, as both objects
     # share the same set of attributes.
     def becomes!(klass)
       became = becomes(klass)
@@ -835,6 +835,7 @@ module ActiveRecord
         self.class.unscoped { _find_record(options) }
       end
 
+      @association_cache = fresh_object.instance_variable_get(:@association_cache)
       @attributes = fresh_object.instance_variable_get(:@attributes)
       @new_record = false
       @previously_new_record = false
@@ -893,11 +894,17 @@ module ActiveRecord
     end
 
   private
+    def strict_loaded_associations
+      @association_cache.find_all do |_, assoc|
+        assoc.owner.strict_loading? && !assoc.owner.strict_loading_n_plus_one_only?
+      end.map(&:first)
+    end
+
     def _find_record(options)
       if options && options[:lock]
-        self.class.lock(options[:lock]).find(id)
+        self.class.preload(strict_loaded_associations).lock(options[:lock]).find(id)
       else
-        self.class.find(id)
+        self.class.preload(strict_loaded_associations).find(id)
       end
     end
 

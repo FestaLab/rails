@@ -154,7 +154,7 @@ $ gem install rails
 ```
 
 To verify that you have everything installed correctly, you should be able to
-run the following:
+run the following in a new terminal:
 
 ```bash
 $ rails --version
@@ -1770,6 +1770,22 @@ Then, in our `index` action template (`app/views/articles/index.html.erb`) we wo
 </ul>
 
 <%= link_to "New Article", new_article_path %>
+```
+
+Similarly, in our comment partial view (`app/views/comments/_comment.html.erb`) we would use the `archived?` method to avoid displaying any comment that is archived:
+
+```html+erb
+<% unless comment.archived? %>
+  <p>
+    <strong>Commenter:</strong>
+    <%= comment.commenter %>
+  </p>
+
+  <p>
+    <strong>Comment:</strong>
+    <%= comment.body %>
+  </p>
+<% end %>
 ```
 
 However, if you look again at our models now, you can see that the logic is duplicated. If in the future we increase the functionality of our blog - to include private messages, for instance -  we might find ourselves duplicating the logic yet again. This is where concerns come in handy.

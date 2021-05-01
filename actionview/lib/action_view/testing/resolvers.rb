@@ -23,16 +23,14 @@ module ActionView #:nodoc:
     end
 
     private
-      def find_candidate_template_paths(path)
-        @hash.keys.select do |fixture|
-          fixture.start_with?(path.virtual)
-        end.map do |fixture|
-          "/#{fixture}"
+      def template_glob(glob)
+        @hash.keys.filter_map do |path|
+          "/#{path}" if File.fnmatch(glob, path)
         end
       end
 
       def source_for_template(template)
-        @hash[template[1..template.size]]
+        @hash[template.from(1)]
       end
   end
 

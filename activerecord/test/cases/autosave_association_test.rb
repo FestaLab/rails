@@ -87,6 +87,56 @@ class TestAutosaveAssociationsInGeneral < ActiveRecord::TestCase
     assert_predicate r, :valid?
   end
 
+  def test_autosave_collection_association_callbacks_get_called_once
+    ship_with_saving_stack = Class.new(Ship) do
+      def save_collection_association(reflection)
+        @count ||= 0
+        @count += 1 if reflection.name == :parts
+        super
+      end
+    end
+
+    ship = ship_with_saving_stack.new(name: "Nights Dirty Lightning")
+    ship.parts.build(name: "part")
+    ship.save!
+    assert_equal 1, ship.instance_variable_get(:@count)
+  end
+
+  def test_autosave_has_one_association_callbacks_get_called_once
+    # a bidirectional autosave is required to trigger multiple calls to
+    # save_has_one_association
+    assert Ship.reflect_on_association(:pirate).options[:autosave]
+    assert Pirate.reflect_on_association(:ship).options[:autosave]
+
+    pirate_with_saving_stack = Class.new(Pirate) do
+      def save_has_one_association(reflection)
+        @count ||= 0
+        @count += 1 if reflection.name == :ship
+        super
+      end
+    end
+
+    pirate = pirate_with_saving_stack.new(catchphrase: "Aye")
+    pirate.build_ship(name: "Nights Dirty Lightning")
+    pirate.save!
+    assert_equal 1, pirate.instance_variable_get(:@count)
+  end
+
+  def test_autosave_belongs_to_association_callbacks_get_called_once
+    ship_with_saving_stack = Class.new(Ship) do
+      def save_belongs_to_association(reflection)
+        @count ||= 0
+        @count += 1 if reflection.name == :pirate
+        super
+      end
+    end
+
+    ship = ship_with_saving_stack.new(name: "Nights Dirty Lightning")
+    ship.build_pirate(catchphrase: "Aye")
+    ship.save!
+    assert_equal 1, ship.instance_variable_get(:@count)
+  end
+
   def test_should_not_add_the_same_callbacks_multiple_times_for_has_one
     assert_no_difference_when_adding_callbacks_twice_for Pirate, :ship
   end
@@ -1956,73 +2006,5 @@ class TestAutosaveAssociationOnAHasManyAssociationDefinedInSubclassWithAcceptsNe
     valid_project.reload
 
     assert_equal "Updated", valid_project.name
-  end
-end
-
-class TestAutosaveAssociationTracksSavingState < ActiveRecord::TestCase
-  test "@_saving is set to true during multiple nested saves" do
-    autosave_saving_stack = []
-
-    ship_with_saving_stack = Class.new(Ship) do
-      before_save { autosave_saving_stack << @_saving }
-      after_save  { autosave_saving_stack << @_saving }
-    end
-
-    pirate_with_callbacks = Class.new(Pirate) do
-      after_save   { ship.save }
-      after_create { ship.save }
-      after_commit { ship.save }
-    end
-
-    child = ship_with_saving_stack.new(name: "Nights Dirty Lightning")
-    child.pirate = pirate_with_callbacks.new(catchphrase: "Aye")
-    child.save!
-    assert_equal [true] * 10, autosave_saving_stack
-    assert_not child.instance_variable_get(:@_saving)
-  end
-
-  test "@_saving is reset to false if validations fail" do
-    child = Ship.new(name: "Nights Dirty Lightning")
-    child.build_pirate
-    assert_not child.save
-    assert_not child.instance_variable_get(:@_saving)
-  end
-end
-
-class TestCyclicAutosaveAssociationsApplyDirtyChangesOnce < ActiveRecord::TestCase
-  test "dirty changes are applied once on child if child is the inverse has_one of parent" do
-    ship_reflection = Ship.reflect_on_association(:pirate)
-    pirate_reflection = Pirate.reflect_on_association(:ship)
-    assert_equal ship_reflection, pirate_reflection.inverse_of, "The pirate reflection's inverse should be the ship reflection"
-
-    child = Ship.new(name: "Nights Dirty Lightning")
-    parent = child.build_pirate(catchphrase: "Aye")
-    child.save!
-    assert_predicate child, :id_previously_changed?
-    assert_predicate parent, :id_previously_changed?
-  end
-
-  test "dirty changes are applied once on child if child is an inverse has_many of parent" do
-    child = FamousShip.new(name: "Poison Orchid")
-    parent = child.build_famous_pirate(catchphrase: "Aye")
-    child.save!
-    assert_predicate child, :id_previously_changed?
-    assert_predicate parent, :id_previously_changed?
-  end
-
-  test "dirty changes on parent are applied only once" do
-    child = Ship.new(name: "Nights Dirty Lightning")
-    parent = child.build_pirate(catchphrase: "Aye")
-    parent.save!
-    assert_predicate child, :id_previously_changed?
-    assert_predicate parent, :id_previously_changed?
-  end
-
-  test "dirty changes are applied once on child if child is an inverse has_many of parent with touch" do
-    child = LineItem.new
-    parent = child.build_invoice
-    child.save!
-    assert_predicate child, :id_previously_changed?
-    assert_predicate parent, :id_previously_changed?
   end
 end

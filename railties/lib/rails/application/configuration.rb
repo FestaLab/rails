@@ -210,6 +210,11 @@ module Rails
             active_support.hash_digest_class = OpenSSL::Digest::SHA256
             active_support.key_generator_hash_digest_class = OpenSSL::Digest::SHA256
             active_support.remove_deprecated_time_with_zone_name = true
+            active_support.cache_format_version = 7.0
+          end
+
+          if respond_to?(:action_mailer)
+            action_mailer.smtp_timeout = 5
           end
         else
           raise "Unknown version #{target_version.to_s.inspect}"
