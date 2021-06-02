@@ -27,6 +27,7 @@ require "models/bird"
 require "models/car"
 require "models/bulb"
 require "models/pet"
+require "models/owner"
 require "concurrent/atomic/count_down_latch"
 require "active_support/core_ext/enumerable"
 
@@ -502,6 +503,10 @@ class BasicsTest < ActiveRecord::TestCase
   ensure
     Post.pluralize_table_names = true
     Post.reset_table_name
+  end
+
+  def test_table_name_based_on_model_name
+    assert_equal "posts", PostRecord.table_name
   end
 
   def test_null_fields
@@ -1477,6 +1482,7 @@ class BasicsTest < ActiveRecord::TestCase
 
   test "scoped can take a values hash" do
     klass = Class.new(ActiveRecord::Base)
+    klass.table_name = "bar"
     assert_equal ["foo"], klass.all.merge!(select: "foo").select_values
   end
 

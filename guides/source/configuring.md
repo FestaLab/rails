@@ -46,6 +46,10 @@ config.active_record.schema_format = :ruby
 
 Rails will use that particular setting to configure Active Record.
 
+WARNING: Use the public configuration methods over calling directly to the associated class. e.g. `Rails.application.config.action_mailer.options` instead of `ActionMailer::Base.options`.
+
+NOTE: If you need to apply configuration directly to a class, use a [lazy load hook](https://api.rubyonrails.org/classes/ActiveSupport/LazyLoadHooks.html) in an initializer to avoid auto-loading the class before initialization has completed. This will break because autoloading during initialization cannot be safely repeated when the app reloads.
+
 ### Rails General Configuration
 
 These configuration methods are to be called on a `Rails::Railtie` object, such as a subclass of `Rails::Engine` or `Rails::Application`.
@@ -479,13 +483,21 @@ The MySQL adapter adds one additional configuration option:
 
 * `ActiveRecord::ConnectionAdapters::Mysql2Adapter.emulate_booleans` controls whether Active Record will consider all `tinyint(1)` columns as booleans. Defaults to `true`.
 
-The PostgreSQL adapter adds one additional configuration option:
+The PostgreSQL adapter adds two additional configuration options:
 
 * `ActiveRecord::ConnectionAdapters::PostgreSQLAdapter.create_unlogged_tables`
   controls whether database tables created should be "unlogged," which can speed
   up performance but adds a risk of data loss if the database crashes. It is
   highly recommended that you do not enable this in a production environment.
   Defaults to `false` in all environments.
+
+* `ActiveRecord::ConnectionAdapters::PostgreSQLAdapter.datetime_type`
+  controls what native type Active Record should use when you call `datetime` in
+  a migration or schema. It takes a symbol which must correspond to one of the configured
+  `NATIVE_DATABASE_TYPES`. The default is `:timestamp`, meaning `t.datetime` in
+  a migration will create a "timestamp without time zone" column. To use
+  "timestamp with time zone", change this to `:timestamptz` in an initializer.
+  You should run `bin/rails db:migrate` to rebuild your schema.rb if you change this.
 
 The schema dumper adds two additional configuration options:
 
