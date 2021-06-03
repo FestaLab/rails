@@ -18,10 +18,12 @@ module ActiveStorage
     end
 
     def metadata
-      if ActiveStorage.variant_processor == :vips
-        Analyzer::ImageAnalyzer::Vips.new(@blob).metadata
-      else
-        Analyzer::ImageAnalyzer::ImageMagick.new(@blob).metadata
+      read_image do |image|
+        if rotated_image?(image)
+          { width: image.height, height: image.width }
+        else
+          { width: image.width, height: image.height }
+        end
       end
     end
   end

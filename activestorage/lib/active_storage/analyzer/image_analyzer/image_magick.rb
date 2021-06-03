@@ -1,15 +1,9 @@
 # frozen_string_literal: true
 
 module ActiveStorage
-  class Analyzer::ImageAnalyzer::ImageMagick < Analyzer
-    def metadata
-      read_image do |image|
-        if rotated_image?(image)
-          { width: image.height, height: image.width }
-        else
-          { width: image.width, height: image.height }
-        end
-      end
+  class Analyzer::ImageAnalyzer::ImageMagick < Analyzer::ImageAnalyzer
+    def self.accept?(blob)
+      super && ActiveStorage.variant_processor == :mini_magick
     end
 
     private

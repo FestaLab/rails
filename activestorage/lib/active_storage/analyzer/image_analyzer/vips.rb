@@ -1,15 +1,9 @@
 # frozen_string_literal: true
 
 module ActiveStorage
-  class Analyzer::ImageAnalyzer::Vips < Analyzer
-    def metadata
-      read_image do |image|
-        if rotated_image?(image)
-          { width: image.height, height: image.width }
-        else
-          { width: image.width, height: image.height }
-        end
-      end
+  class Analyzer::ImageAnalyzer::Vips < Analyzer::ImageAnalyzer
+    def self.accept?(blob)
+      super && ActiveStorage.variant_processor == :vips
     end
 
     private
@@ -36,14 +30,14 @@ module ActiveStorage
       ROTATIONS = /Right-top|Left-bottom|Top-right|Bottom-left/
       def rotated_image?(image)
         ROTATIONS === image.get("exif-ifd0-Orientation")
-      rescue ::Vips::Error
+      rescue Vips::Error
         false
       end
 
       def valid_image?(image)
         image.avg
         true
-      rescue ::Vips::Error
+      rescue Vips::Error
         false
       end
   end

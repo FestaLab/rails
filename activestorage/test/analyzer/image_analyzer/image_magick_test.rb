@@ -48,7 +48,7 @@ class ActiveStorage::Analyzer::ImageAnalyzer::ImageMagickTest < ActiveSupport::T
 
   private
     def analyze_with_image_magick
-      previous_processor, ActiveStorage.variant_processor = ActiveStorage.variant_processor, :image_magick
+      previous_processor, ActiveStorage.variant_processor = ActiveStorage.variant_processor, :mini_magick
       require "mini_magick"
 
       yield
