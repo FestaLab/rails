@@ -10,7 +10,7 @@ module ActiveStorage
       def read_image
         download_blob_to_tempfile do |file|
           require "ruby-vips"
-          image = Vips::Image.new_from_file(file.path, access: :sequential)
+          image = ::Vips::Image.new_from_file(file.path, access: :sequential)
 
           if valid_image?(image)
             yield image
@@ -22,7 +22,7 @@ module ActiveStorage
       rescue LoadError
         logger.info "Skipping image analysis because the ruby-vips gem isn't installed"
         {}
-      rescue Vips::Error => error
+      rescue ::Vips::Error => error
         logger.error "Skipping image analysis due to an Vips error: #{error.message}"
         {}
       end
@@ -30,14 +30,14 @@ module ActiveStorage
       ROTATIONS = /Right-top|Left-bottom|Top-right|Bottom-left/
       def rotated_image?(image)
         ROTATIONS === image.get("exif-ifd0-Orientation")
-      rescue Vips::Error
+      rescue ::Vips::Error
         false
       end
 
       def valid_image?(image)
         image.avg
         true
-      rescue Vips::Error
+      rescue ::Vips::Error
         false
       end
   end
