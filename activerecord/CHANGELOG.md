@@ -1,3 +1,19 @@
+*   Use an empty query to check if the PostgreSQL connection is still active
+
+    An empty query is faster than `SELECT 1`.
+
+    *Heinrich Lee Yu*
+
+*   Add `ActiveRecord::Base#previously_persisted?`
+
+    Returns `true` if the object has been previously persisted but now it has been deleted.
+
+*   Deprecate `partial_writes` in favor of `partial_inserts` and `partial_updates`.
+
+    This allows to have a different behavior on update and create.
+
+    *Jean Boussier*
+
 *   Fix compatibility with `psych >= 4`.
 
     Starting in Psych 4.0.0 `YAML.load` behaves like `YAML.safe_load`. To preserve compatibility
