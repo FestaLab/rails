@@ -1,3 +1,7 @@
+*   Use libvips instead of ImageMagick to analyze images when `active_storage.variant_processor = vips`  
+
+    *Breno Gazzola*
+
 *   Allow `expires_in` for ActiveStorage signed ids.
 
     *aki77*
