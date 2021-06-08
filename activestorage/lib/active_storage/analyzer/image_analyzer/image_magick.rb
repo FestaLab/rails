@@ -32,5 +32,9 @@ module ActiveStorage
       def rotated_image?(image)
         %w[ RightTop LeftBottom TopRight BottomLeft ].include?(image["%[orientation]"])
       end
+
+      def alpha?(image)
+        image.data["channelDepth"].key?("alpha")
+      end
   end
 end

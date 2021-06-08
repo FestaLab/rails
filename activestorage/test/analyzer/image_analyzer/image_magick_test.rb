@@ -13,6 +13,7 @@ class ActiveStorage::Analyzer::ImageAnalyzer::ImageMagickTest < ActiveSupport::T
 
       assert_equal 4104, metadata[:width]
       assert_equal 2736, metadata[:height]
+      assert_not metadata[:alpha]
     end
   end
 
@@ -23,6 +24,7 @@ class ActiveStorage::Analyzer::ImageAnalyzer::ImageMagickTest < ActiveSupport::T
 
       assert_equal 2736, metadata[:width]
       assert_equal 4104, metadata[:height]
+      assert_not metadata[:alpha]
     end
   end
 
@@ -33,6 +35,7 @@ class ActiveStorage::Analyzer::ImageAnalyzer::ImageMagickTest < ActiveSupport::T
 
       assert_equal 792, metadata[:width]
       assert_equal 584, metadata[:height]
+      assert metadata[:alpha]
     end
   end
 
@@ -43,6 +46,18 @@ class ActiveStorage::Analyzer::ImageAnalyzer::ImageMagickTest < ActiveSupport::T
 
       assert_nil metadata[:width]
       assert_nil metadata[:height]
+      assert_nil metadata[:alpha]
+    end
+  end
+
+  test "analyzing an image with alpha channel" do
+    analyze_with_image_magick do
+      blob = create_file_blob(filename: "alpha.png", content_type: "image/png")
+      metadata = extract_metadata_from(blob)
+
+      assert_equal 32, metadata[:width]
+      assert_equal 32, metadata[:height]
+      assert metadata[:alpha]
     end
   end
 

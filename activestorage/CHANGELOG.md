@@ -1,3 +1,10 @@
+*   Add metadata value for presence of alpha channel in image blobs
+
+    The `metadata` attribute of video blobs has a new boolean key named `alpha` that is set to
+    `true` if the file has an alpha channel and `false` if it doesn't.
+
+    *Breno Gazzola*
+
 *   Use libvips instead of ImageMagick to analyze images when `active_storage.variant_processor = vips`  
 
     *Breno Gazzola*

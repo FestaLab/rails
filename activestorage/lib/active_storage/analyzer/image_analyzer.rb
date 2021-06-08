@@ -17,11 +17,24 @@ module ActiveStorage
     def metadata
       read_image do |image|
         if rotated_image?(image)
-          { width: image.height, height: image.width }
+          { width: image.height, height: image.width, alpha: alpha?(image) }
         else
-          { width: image.width, height: image.height }
+          { width: image.width, height: image.height, alpha: alpha?(image) }
         end
       end
     end
+
+    private
+      def read_image
+        raise NotImplementedError
+      end
+
+      def rotated_image?(image)
+        raise NotImplementedError
+      end
+
+      def alpha?(image)
+        raise NotImplementedError
+      end
   end
 end

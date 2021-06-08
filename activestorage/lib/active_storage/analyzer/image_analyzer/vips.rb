@@ -36,6 +36,10 @@ module ActiveStorage
         false
       end
 
+      def alpha?(image)
+        image.has_alpha?
+      end
+
       def valid_image?(image)
         image.avg
         true
