@@ -1003,11 +1003,11 @@ request:
 
 | JSON                              | Parameters               |
 |-----------------------------------|--------------------------|
-| `{ "person": null }`              | `{ :person => nil }`     |
-| `{ "person": [] }`                | `{ :person => [] }`     |
-| `{ "person": [null] }`            | `{ :person => [] }`     |
-| `{ "person": [null, null, ...] }` | `{ :person => [] }`     |
-| `{ "person": ["foo", null] }`     | `{ :person => ["foo"] }` |
+| `{ "person": null }`              | `{ person: nil }`     |
+| `{ "person": [] }`                | `{ person: [] }`     |
+| `{ "person": [null] }`            | `{ person: [] }`     |
+| `{ "person": [null, null, ...] }` | `{ person: [] }`     |
+| `{ "person": ["foo", null] }`     | `{ person: ["foo"] }` |
 
 It is possible to return to old behavior and disable `deep_munge` configuring
 your application if you are aware of the risk and know how to handle it:
@@ -1023,12 +1023,12 @@ Every HTTP response from your Rails application receives the following default s
 
 ```ruby
 config.action_dispatch.default_headers = {
-  'X-Frame-Options' => 'SAMEORIGIN',
-  'X-XSS-Protection' => '1; mode=block',
-  'X-Content-Type-Options' => 'nosniff',
-  'X-Download-Options' => 'noopen',
-  'X-Permitted-Cross-Domain-Policies' => 'none',
-  'Referrer-Policy' => 'strict-origin-when-cross-origin'
+  'X-Frame-Options': 'SAMEORIGIN',
+  'X-XSS-Protection': '1; mode=block',
+  'X-Content-Type-Options': 'nosniff',
+  'X-Download-Options': 'noopen',
+  'X-Permitted-Cross-Domain-Policies': 'none',
+  'Referrer-Policy': 'strict-origin-when-cross-origin'
 }
 ```
 
@@ -1036,8 +1036,8 @@ You can configure default headers in `config/application.rb`.
 
 ```ruby
 config.action_dispatch.default_headers = {
-  'Header-Name' => 'Header-Value',
-  'X-Frame-Options' => 'DENY'
+  'Header-Name': 'Header-Value',
+  'X-Frame-Options': 'DENY'
 }
 ```
 

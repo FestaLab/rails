@@ -138,7 +138,7 @@ To send a hash, you include the key name inside the brackets:
 </form>
 ```
 
-When this form is submitted, the value of `params[:client]` will be `{ "name" => "Acme", "phone" => "12345", "address" => { "postcode" => "12345", "city" => "Carrot City" } }`. Note the nested hash in `params[:client][:address]`.
+When this form is submitted, the value of `params[:client]` will be `{ "name": "Acme", "phone": "12345", "address": { "postcode": "12345", "city": "Carrot City" } }`. Note the nested hash in `params[:client][:address]`.
 
 The `params` object acts like a Hash, but lets you use symbols and strings interchangeably as keys.
 
@@ -152,7 +152,7 @@ So for example, if you are sending this JSON content:
 { "company": { "name": "acme", "address": "123 Carrot Street" } }
 ```
 
-Your controller will receive `params[:company]` as `{ "name" => "acme", "address" => "123 Carrot Street" }`.
+Your controller will receive `params[:company]` as `{ "name": "acme", "address": "123 Carrot Street" }`.
 
 Also, if you've turned on `config.wrap_parameters` in your initializer or called [`wrap_parameters`][] in your controller, you can safely omit the root element in the JSON parameter. In this case, the parameters will be cloned and wrapped with a key chosen based on your controller's name. So the above JSON request can be written as:
 
@@ -344,9 +344,9 @@ with a `has_many` association:
 
 ```ruby
 # To permit the following data:
-# {"book" => {"title" => "Some Book",
-#             "chapters_attributes" => { "1" => {"title" => "First Chapter"},
-#                                        "2" => {"title" => "Second Chapter"}}}}
+# {"book": {"title": "Some Book",
+#             "chapters_attributes": { "1": {"title": "First Chapter"},
+#                                        "2": {"title": "Second Chapter"}}}}
 
 params.require(:book).permit(:title, chapters_attributes: [:title])
 ```
@@ -938,7 +938,7 @@ HTTP digest authentication is superior to the basic authentication as it does no
 
 ```ruby
 class AdminsController < ApplicationController
-  USERS = { "lifo" => "world" }
+  USERS = { "lifo": "world" }
 
   before_action :authenticate
 

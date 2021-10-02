@@ -120,12 +120,12 @@ class AttributesDirtyTest < ActiveModel::TestCase
   test "previous value is preserved when changed after save" do
     assert_equal({}, @model.changed_attributes)
     @model.name = "Paul"
-    assert_equal({ "name" => nil }, @model.changed_attributes)
+    assert_equal({ "name": nil }, @model.changed_attributes)
 
     @model.save
 
     @model.name = "John"
-    assert_equal({ "name" => "Paul" }, @model.changed_attributes)
+    assert_equal({ "name": "Paul" }, @model.changed_attributes)
   end
 
   test "changing the same attribute multiple times retains the correct original value" do
@@ -196,6 +196,6 @@ class AttributesDirtyTest < ActiveModel::TestCase
 
     assert_equal true, @model.changed?
     assert_equal true, @model.size_changed?
-    assert_equal({ "size" => [2, 5] }, @model.changes)
+    assert_equal({ "size": [2, 5] }, @model.changes)
   end
 end

@@ -121,7 +121,7 @@ class ValidationsTest < ActiveModel::TestCase
       record.errors.add attr, "gotcha"
       hits += 1
     end
-    t = Topic.new("title" => "valid", "content" => "whatever")
+    t = Topic.new("title": "valid", "content": "whatever")
     assert_predicate t, :invalid?
     assert_equal 4, hits
     assert_equal %w(gotcha gotcha), t.errors[:title]
@@ -134,7 +134,7 @@ class ValidationsTest < ActiveModel::TestCase
       record.errors.add attr, "gotcha"
       hits += 1
     end
-    t = CustomReader.new("title" => "valid", "content" => "whatever")
+    t = CustomReader.new("title": "valid", "content": "whatever")
     assert_predicate t, :invalid?
     assert_equal 4, hits
     assert_equal %w(gotcha gotcha), t.errors[:title]
@@ -145,7 +145,7 @@ class ValidationsTest < ActiveModel::TestCase
 
   def test_validate_block
     Topic.validate { errors.add("title", "will never be valid") }
-    t = Topic.new("title" => "Title", "content" => "whatever")
+    t = Topic.new("title": "Title", "content": "whatever")
     assert_predicate t, :invalid?
     assert_predicate t.errors[:title], :any?
     assert_equal ["will never be valid"], t.errors["title"]
@@ -153,7 +153,7 @@ class ValidationsTest < ActiveModel::TestCase
 
   def test_validate_block_with_params
     Topic.validate { |topic| topic.errors.add("title", "will never be valid") }
-    t = Topic.new("title" => "Title", "content" => "whatever")
+    t = Topic.new("title": "Title", "content": "whatever")
     assert_predicate t, :invalid?
     assert_predicate t.errors[:title], :any?
     assert_equal ["will never be valid"], t.errors["title"]
@@ -237,7 +237,7 @@ class ValidationsTest < ActiveModel::TestCase
     Topic.validates_presence_of :title
     Topic.validates_length_of :title, minimum: 2
 
-    t = Topic.new("title" => "")
+    t = Topic.new("title": "")
     assert_predicate t, :invalid?
     assert_equal "can't be blank", t.errors["title"].first
     Topic.validates_presence_of :title, :author_name
@@ -440,7 +440,7 @@ class ValidationsTest < ActiveModel::TestCase
 
   def test_dup_validity_is_independent
     Topic.validates_presence_of :title
-    topic = Topic.new("title" => "Literature")
+    topic = Topic.new("title": "Literature")
     topic.valid?
 
     duped = topic.dup

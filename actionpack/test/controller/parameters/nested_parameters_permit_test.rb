@@ -48,13 +48,13 @@ class NestedParametersPermitTest < ActiveSupport::TestCase
   test "permitted nested parameters with a string or a symbol as a key" do
     params = ActionController::Parameters.new(
       book: {
-        "authors" => [
+        "authors": [
           { name: "William Shakespeare", born: "1564-04-26" },
           { name: "Christopher Marlowe" }
         ]
       })
 
-    permitted = params.permit book: [ { "authors" => [ :name ] } ]
+    permitted = params.permit book: [ { "authors": [ :name ] } ]
 
     assert_equal "William Shakespeare", permitted[:book]["authors"][0][:name]
     assert_equal "William Shakespeare", permitted[:book][:authors][0][:name]
@@ -143,7 +143,7 @@ class NestedParametersPermitTest < ActiveSupport::TestCase
     assert_equal "Unattributed Assistant", permitted[:book][:authors_attributes]["1"][:name]
 
     assert_equal(
-      { "book" => { "authors_attributes" => { "0" => { "name" => "William Shakespeare" }, "1" => { "name" => "Unattributed Assistant" }, "2" => {} } } },
+      { "book": { "authors_attributes": { "0": { "name": "William Shakespeare" }, "1": { "name": "Unattributed Assistant" }, "2": {} } } },
       permitted.to_h
     )
 
@@ -171,7 +171,7 @@ class NestedParametersPermitTest < ActiveSupport::TestCase
     assert_equal "Unattributed Assistant", permitted[:book][:authors_attributes]["1"][:name]
 
     assert_equal(
-      { "book" => { "authors_attributes" => { "0" => { "name" => "William Shakespeare" }, "1" => { "name" => "Unattributed Assistant" } } } },
+      { "book": { "authors_attributes": { "0": { "name": "William Shakespeare" }, "1": { "name": "Unattributed Assistant" } } } },
       permitted.to_h
     )
   end
@@ -206,7 +206,7 @@ class NestedParametersPermitTest < ActiveSupport::TestCase
     permitted = params.permit book: { authors_attributes: { '1': [ :name ], '0': [ :name, :age_of_death ] } }
 
     assert_equal(
-      { "book" => { "authors_attributes" => { "0" => { "name" => "William Shakespeare", "age_of_death" => "52" }, "1" => { "name" => "Unattributed Assistant" } } } },
+      { "book": { "authors_attributes": { "0": { "name": "William Shakespeare", "age_of_death": "52" }, "1": { "name": "Unattributed Assistant" } } } },
       permitted.to_h
     )
   end
@@ -224,7 +224,7 @@ class NestedParametersPermitTest < ActiveSupport::TestCase
     permitted = params.require(:book).permit(authors_attributes: { '1': [:name] })
 
     assert_equal(
-      { "authors_attributes" => { "1" => { "name" => "Unattributed Assistant" } } },
+      { "authors_attributes": { "1": { "name": "Unattributed Assistant" } } },
       permitted.to_h
     )
   end
@@ -241,7 +241,7 @@ class NestedParametersPermitTest < ActiveSupport::TestCase
     permitted = params.permit book: { authors_attributes: { '2': [ :name ], '0': [] } }
 
     assert_equal(
-      { "book" => { "authors_attributes" => { "2" => {}, "0" => ["draft 1", "draft 2", "draft 3"] } } },
+      { "book": { "authors_attributes": { "2": {}, "0": ["draft 1", "draft 2", "draft 3"] } } },
       permitted.to_h
     )
   end
@@ -252,13 +252,13 @@ class NestedParametersPermitTest < ActiveSupport::TestCase
         authors_attributes: {
           '0': ["draft 1", "draft 2", "draft 3"],
           '1': ["final draft"],
-          '2': { name: { "projects" => [ "hamlet", "Othello" ] } }
+          '2': { name: { "projects": [ "hamlet", "Othello" ] } }
         }
       })
     permitted = params.permit book: { authors_attributes: { '2': { name: { projects: [] } }, '0': [] } }
 
     assert_equal(
-      { "book" => { "authors_attributes" => { "2" => { "name" => { "projects" => ["hamlet", "Othello"] } }, "0" => ["draft 1", "draft 2", "draft 3"] } } },
+      { "book": { "authors_attributes": { "2": { "name": { "projects": ["hamlet", "Othello"] } }, "0": ["draft 1", "draft 2", "draft 3"] } } },
       permitted.to_h
     )
   end
@@ -267,8 +267,8 @@ class NestedParametersPermitTest < ActiveSupport::TestCase
     params = ActionController::Parameters.new(
       product: {
         properties: {
-          "0" => "prop0",
-          "1" => "prop1"
+          "0": "prop0",
+          "1": "prop1"
         }
       })
     params = params.require(:product).permit(properties: ["0"])

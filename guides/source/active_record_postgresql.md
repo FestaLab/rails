@@ -113,13 +113,13 @@ end
 ```
 
 ```irb
-irb> Profile.create(settings: { "color" => "blue", "resolution" => "800x600" })
+irb> Profile.create(settings: { "color": "blue", "resolution": "800x600" })
 
 irb> profile = Profile.first
 irb> profile.settings
 => {"color"=>"blue", "resolution"=>"800x600"}
 
-irb> profile.settings = {"color" => "yellow", "resolution" => "1280x1024"}
+irb> profile.settings = {"color": "yellow", "resolution": "1280x1024"}
 irb> profile.save!
 
 irb> Profile.where("settings->'color' = ?", "yellow")

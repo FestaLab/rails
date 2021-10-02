@@ -267,7 +267,7 @@ Action Pack
     end
     ```
 
-    ..can now be written as
+  ..can now be written as
 
     ```ruby
     class PostsController < ApplicationController
@@ -291,7 +291,7 @@ Action Pack
     end
     ```
 
-    You can restrict it to some actions by using `:only` or `:except`. Please read the docs at [`ActionController::Streaming`](https://api.rubyonrails.org/v3.1.0/classes/ActionController/Streaming.html) for more information.
+  You can restrict it to some actions by using `:only` or `:except`. Please read the docs at [`ActionController::Streaming`](https://api.rubyonrails.org/v3.1.0/classes/ActionController/Streaming.html) for more information.
 
 * The redirect route method now also accepts a hash of options which will only change the parts of the URL in question, or an object which responds to call, allowing for redirects to be reused.
 
@@ -469,9 +469,9 @@ Active Record
     has_many :things, :conditions => proc { "foo = #{bar}" } # after
     ```
 
-    Inside the proc, `self` is the object which is the owner of the association, unless you are eager loading the association, in which case `self` is the class which the association is within.
+  Inside the proc, `self` is the object which is the owner of the association, unless you are eager loading the association, in which case `self` is the class which the association is within.
 
-    You can have any "normal" conditions inside the proc, so the following will work too:
+  You can have any "normal" conditions inside the proc, so the following will work too:
 
     ```ruby
     has_many :things, :conditions => proc { ["foo = ?", bar] }

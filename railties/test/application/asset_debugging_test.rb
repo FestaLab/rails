@@ -135,8 +135,8 @@ module ApplicationTests
 
     test "{ skip_pipeline: true } does not use the asset pipeline" do
       cases = {
-        /\/assets\/application-.*.\.js/ => {},
-        /application.js/                => { skip_pipeline: true },
+        /\/assets\/application-.*.\.js/: {},
+        /application.js/:                { skip_pipeline: true }
       }
 
       class ::PostsController < ActionController::Base

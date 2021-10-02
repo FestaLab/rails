@@ -102,13 +102,13 @@ Once `config/boot.rb` has finished, the next file that is required is
 require "rails/command"
 
 aliases = {
-  "g"  => "generate",
-  "d"  => "destroy",
-  "c"  => "console",
-  "s"  => "server",
-  "db" => "dbconsole",
-  "r"  => "runner",
-  "t"  => "test"
+  "g":  "generate",
+  "d":  "destroy",
+  "c":  "console",
+  "s":  "server",
+  "db": "dbconsole",
+  "r":  "runner",
+  "t":  "test"
 }
 
 command = ARGV.shift
@@ -686,7 +686,7 @@ module Rack
 
         events = options.delete(:Silent) ? ::Puma::Events.strings : ::Puma::Events.stdio
 
-        launcher = ::Puma::Launcher.new(conf, :events => events)
+        launcher = ::Puma::Launcher.new(conf, :events: events)
 
         yield launcher if block_given?
         begin

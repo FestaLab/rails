@@ -1183,7 +1183,7 @@ All of these keyword arguments are optional.
 Example: Calling the `:show` action for the first `Article`, passing in an `HTTP_REFERER` header:
 
 ```ruby
-get article_url(Article.first), headers: { "HTTP_REFERER" => "http://example.com/home" }
+get article_url(Article.first), headers: { "HTTP_REFERER": "http://example.com/home" }
 ```
 
 Another example: Calling the `:update` action for the last `Article`, passing in new text for the `title` in `params`, as an Ajax request:

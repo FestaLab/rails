@@ -42,9 +42,9 @@ module ActionDispatch
   class FileHandler
     # Accept-Encoding value -> file extension
     PRECOMPRESSED = {
-      "br" => ".br",
-      "gzip" => ".gz",
-      "identity" => nil
+      "br": ".br",
+      "gzip": ".gz",
+      "identity": nil
     }
 
     def initialize(root, index: "index", headers: {}, precompressed: %i[ br gzip ], compressible_content_types: /\A(?:text\/|application\/javascript)/)
@@ -105,7 +105,7 @@ module ActionDispatch
       end
 
       def try_files(filepath, content_type, accept_encoding:)
-        headers = { "Content-Type" => content_type }
+        headers = { "Content-Type": content_type }
 
         if compressible? content_type
           try_precompressed_files filepath, headers, accept_encoding: accept_encoding

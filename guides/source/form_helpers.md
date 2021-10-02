@@ -428,8 +428,8 @@ In some cases we may want to improve the user experience by grouping related opt
 ```erb
 <%= form.select :city,
       {
-        "Europe" => [ ["Berlin", "BE"], ["Madrid", "MD"] ],
-        "North America" => [ ["Chicago", "CHI"] ],
+        "Europe": [ ["Berlin", "BE"], ["Madrid", "MD"] ],
+        "North America": [ ["Chicago", "CHI"] ],
       },
       selected: "CHI" %>
 ```
@@ -748,7 +748,7 @@ The two basic structures are arrays and hashes. Hashes mirror the syntax used fo
 the `params` hash will contain
 
 ```ruby
-{'person' => {'name' => 'Henry'}}
+{'person': {'name': 'Henry'}}
 ```
 
 and `params[:person][:name]` will retrieve the submitted value in the controller.
@@ -762,7 +762,7 @@ Hashes can be nested as many levels as required, for example:
 will result in the `params` hash being
 
 ```ruby
-{'person' => {'address' => {'city' => 'New York'}}}
+{'person': {'address': {'city': 'New York'}}}
 ```
 
 Normally Rails ignores duplicate parameter names. If the parameter name ends with an empty set of square brackets `[]` then they will be accumulated in an array. If you wanted users to be able to input multiple phone numbers, you could place this in the form:
@@ -823,7 +823,7 @@ Assuming the person had two addresses, with ids 23 and 45 this would create outp
 This will result in a `params` hash that looks like
 
 ```ruby
-{'person' => {'name' => 'Bob', 'address' => {'23' => {'city' => 'Paris'}, '45' => {'city' => 'London'}}}}
+{'person': {'name': 'Bob', 'address': {'23': {'city': 'Paris'}, '45': {'city': 'London'}}}}
 ```
 
 Rails knows that all these inputs should be part of the person hash because you
@@ -940,12 +940,12 @@ The `fields_for` yields a form builder. The parameters' name will be what
 
 ```ruby
 {
-  'person' => {
-    'name' => 'John Doe',
-    'addresses_attributes' => {
-      '0' => {
-        'kind' => 'Home',
-        'street' => '221b Baker Street'
+  'person': {
+    'name': 'John Doe',
+    'addresses_attributes': {
+      '0': {
+        'kind': 'Home',
+        'street': '221b Baker Street'
       },
       '1' => {
         'kind' => 'Office',

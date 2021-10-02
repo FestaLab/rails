@@ -131,14 +131,14 @@ class ControllerInstanceTests < ActiveSupport::TestCase
     original_default_headers = ActionDispatch::Response.default_headers
 
     ActionDispatch::Response.default_headers = {
-      "X-Frame-Options" => "DENY",
-      "X-Content-Type-Options" => "nosniff",
-      "X-XSS-Protection" => "1;"
+      "X-Frame-Options": "DENY",
+      "X-Content-Type-Options": "nosniff",
+      "X-XSS-Protection": "1;"
     }
 
     response_headers = SimpleController.action("hello").call(
-      "REQUEST_METHOD" => "GET",
-      "rack.input" => -> { }
+      "REQUEST_METHOD": "GET",
+      "rack.input": -> { }
     )[1]
 
     assert response_headers.key?("X-Frame-Options")
@@ -198,14 +198,14 @@ class UrlOptionsTest < ActionController::TestCase
   def test_url_for_query_params_included
     rs = ActionDispatch::Routing::RouteSet.new
     rs.draw do
-      get "home" => "pages#home"
+      get "home": "pages#home"
     end
 
     options = {
       action: "home",
       controller: "pages",
       only_path: true,
-      params: { "token" => "secret" }
+      params: { "token": "secret" }
     }
 
     assert_equal "/home?token=secret", rs.url_for(options)

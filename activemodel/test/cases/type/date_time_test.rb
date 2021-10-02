@@ -27,7 +27,7 @@ module ActiveModel
 
       def test_hash_to_time
         type = Type::DateTime.new
-        assert_equal ::Time.utc(2018, 10, 15, 0, 0, 0), type.cast(1 => 2018, 2 => 10, 3 => 15)
+        assert_equal ::Time.utc(2018, 10, 15, 0, 0, 0), type.cast(1: 2018, 2: 10, 3: 15)
       end
 
       def test_hash_with_wrong_keys

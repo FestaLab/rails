@@ -48,7 +48,7 @@ module ActionDispatch
       rescue Exception => failsafe_error
         $stderr.puts "Error during failsafe response: #{failsafe_error}\n  #{failsafe_error.backtrace * "\n  "}"
 
-        [500, { "Content-Type" => "text/plain" },
+        [500, { "Content-Type": "text/plain" },
           ["500 Internal Server Error\n" \
           "If you are the administrator of this website, then please read this web " \
           "application's log file and/or the web server's log file to find out what " \
@@ -65,7 +65,7 @@ module ActionDispatch
       end
 
       def pass_response(status)
-        [status, { "Content-Type" => "text/html; charset=#{Response.default_charset}", "Content-Length" => "0" }, []]
+        [status, { "Content-Type": "text/html; charset=#{Response.default_charset}", "Content-Length": "0" }, []]
       end
   end
 end

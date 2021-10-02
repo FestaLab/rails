@@ -80,8 +80,8 @@ module ActionDispatch
 
         def response(format, body)
           [RESPONSE_STATUS,
-           { "Content-Type" => "#{format}; charset=#{Response.default_charset}",
-             "Content-Length" => body.bytesize.to_s },
+           { "Content-Type": "#{format}; charset=#{Response.default_charset}",
+             "Content-Length": body.bytesize.to_s },
            [body]]
         end
 

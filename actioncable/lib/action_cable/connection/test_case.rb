@@ -89,7 +89,7 @@ module ActionCable
     # +params+, +headers+, +session+ and Rack +env+ options.
     #
     #   def test_connect_with_headers_and_query_string
-    #     connect params: { user_id: 1 }, headers: { "X-API-TOKEN" => "secret-my" }
+    #     connect params: { user_id: 1 }, headers: { "X-API-TOKEN": "secret-my" }
     #
     #     assert_equal "1", connection.user.id
     #     assert_equal "secret-my", connection.token
@@ -213,8 +213,8 @@ module ActionCable
             query_string = params.nil? ? uri.query : params.to_query
 
             request_env = {
-              "QUERY_STRING" => query_string,
-              "PATH_INFO" => uri.path
+              "QUERY_STRING": query_string,
+              "PATH_INFO": uri.path
             }.merge(env)
 
             if wrapped_headers.present?

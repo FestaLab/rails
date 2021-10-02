@@ -437,8 +437,8 @@ class MoneySerializer < ActiveJob::Serializers::ObjectSerializer
   # You should call `super` to add the custom serializer type to the hash.
   def serialize(money)
     super(
-      "amount" => money.amount,
-      "currency" => money.currency
+      "amount": money.amount,
+      "currency": money.currency
     )
   end
 

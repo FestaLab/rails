@@ -290,7 +290,7 @@ class FormHelperTest < ActionView::TestCase
   end
 
   def test_label_with_for_attribute_as_string
-    assert_dom_equal('<label for="my_for">Title</label>', label(:post, :title, nil, "for" => "my_for"))
+    assert_dom_equal('<label for="my_for">Title</label>', label(:post, :title, nil, "for": "my_for"))
   end
 
   def test_label_does_not_generate_for_attribute_when_given_nil
@@ -307,7 +307,7 @@ class FormHelperTest < ActionView::TestCase
   def test_label_with_id_attribute_as_string
     assert_dom_equal(
       '<label for="post_title" id="my_id">Title</label>',
-      label(:post, :title, nil, "id" => "my_id")
+      label(:post, :title, nil, "id": "my_id")
     )
   end
 
@@ -321,7 +321,7 @@ class FormHelperTest < ActionView::TestCase
   def test_label_with_for_and_id_attributes_as_string
     assert_dom_equal(
       '<label for="my_for" id="my_id">Title</label>',
-      label(:post, :title, nil, "for" => "my_for", "id" => "my_id")
+      label(:post, :title, nil, "for": "my_for", "id": "my_id")
     )
   end
 
@@ -353,7 +353,7 @@ class FormHelperTest < ActionView::TestCase
   def test_label_with_block_and_options
     assert_dom_equal(
       '<label for="my_for">The title, please:</label>',
-      label(:post, :title, "for" => "my_for") { "The title, please:" }
+      label(:post, :title, "for": "my_for") { "The title, please:" }
     )
   end
 
@@ -510,19 +510,19 @@ class FormHelperTest < ActionView::TestCase
 
   def test_text_field_with_options
     expected = '<input id="post_title" name="post[title]" size="35" type="text" value="Hello World" />'
-    assert_dom_equal expected, text_field("post", "title", "size" => 35)
+    assert_dom_equal expected, text_field("post", "title", "size": 35)
     assert_dom_equal expected, text_field("post", "title", size: 35)
   end
 
   def test_text_field_assuming_size
     expected = '<input id="post_title" maxlength="35" name="post[title]" size="35" type="text" value="Hello World" />'
-    assert_dom_equal expected, text_field("post", "title", "maxlength" => 35)
+    assert_dom_equal expected, text_field("post", "title", "maxlength": 35)
     assert_dom_equal expected, text_field("post", "title", maxlength: 35)
   end
 
   def test_text_field_removing_size
     expected = '<input id="post_title" maxlength="35" name="post[title]" type="text" value="Hello World" />'
-    assert_dom_equal expected, text_field("post", "title", "maxlength" => 35, "size" => nil)
+    assert_dom_equal expected, text_field("post", "title", "maxlength": 35, "size": nil)
     assert_dom_equal expected, text_field("post", "title", maxlength: 35, size: nil)
   end
 
@@ -638,7 +638,7 @@ class FormHelperTest < ActionView::TestCase
   def test_check_box_checked_if_option_checked_is_present
     assert_dom_equal(
       '<input name="post[secret]" type="hidden" value="0" autocomplete="off" /><input checked="checked" id="post_secret" name="post[secret]" type="checkbox" value="1" />',
-      check_box("post", "secret", "checked" => "checked")
+      check_box("post", "secret", "checked": "checked")
     )
   end
 
@@ -1329,7 +1329,7 @@ class FormHelperTest < ActionView::TestCase
   def test_explicit_name
     assert_dom_equal(
       '<input id="post_title" name="dont guess" type="text" value="Hello World" />',
-      text_field("post", "title", "name" => "dont guess")
+      text_field("post", "title", "name": "dont guess")
     )
     assert_dom_equal(
       %{<textarea id="post_body" name="really!">\nBack to the hill and over it again!</textarea>},

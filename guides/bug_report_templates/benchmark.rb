@@ -29,7 +29,7 @@ end
 # scenarios. Ideally, they should be based on real-world scenarios extracted
 # from production applications.
 SCENARIOS = {
-  "Empty"             => "",
+  "Empty": "",
   "Single Space"      => " ",
   "Two Spaces"        => "  ",
   "Mixed Whitespaces" => " \t\r\n",

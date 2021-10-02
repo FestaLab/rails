@@ -127,8 +127,8 @@ module ActionDispatch
 
       def redirect_to_https(request)
         [ @redirect.fetch(:status, redirection_status(request)),
-          { "Content-Type" => "text/html",
-            "Location" => https_location_for(request) },
+          { "Content-Type": "text/html",
+            "Location": https_location_for(request) },
           (@redirect[:body] || []) ]
       end
 

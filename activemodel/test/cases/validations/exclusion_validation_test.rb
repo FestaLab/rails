@@ -14,16 +14,16 @@ class ExclusionValidationTest < ActiveModel::TestCase
   def test_validates_exclusion_of
     Topic.validates_exclusion_of(:title, in: %w( abe monkey ))
 
-    assert_predicate Topic.new("title" => "something", "content" => "abc"), :valid?
-    assert_predicate Topic.new("title" => "monkey", "content" => "abc"), :invalid?
+    assert_predicate Topic.new("title": "something", "content": "abc"), :valid?
+    assert_predicate Topic.new("title": "monkey", "content": "abc"), :invalid?
   end
 
   def test_validates_exclusion_of_with_formatted_message
     Topic.validates_exclusion_of(:title, in: %w( abe monkey ), message: "option %{value} is restricted")
 
-    assert Topic.new("title" => "something", "content" => "abc")
+    assert Topic.new("title": "something", "content": "abc")
 
-    t = Topic.new("title" => "monkey")
+    t = Topic.new("title": "monkey")
     assert_predicate t, :invalid?
     assert_predicate t.errors[:title], :any?
     assert_equal ["option monkey is restricted"], t.errors[:title]
@@ -32,9 +32,9 @@ class ExclusionValidationTest < ActiveModel::TestCase
   def test_validates_exclusion_of_with_within_option
     Topic.validates_exclusion_of(:title, within: %w( abe monkey ))
 
-    assert Topic.new("title" => "something", "content" => "abc")
+    assert Topic.new("title": "something", "content": "abc")
 
-    t = Topic.new("title" => "monkey")
+    t = Topic.new("title": "monkey")
     assert_predicate t, :invalid?
     assert_predicate t.errors[:title], :any?
   end

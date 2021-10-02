@@ -314,8 +314,8 @@ module ApplicationTests
     end
 
     {
-      "development" => ["baz", "http://www.apple.com", "/dashboard"],
-      "production"  => ["bar", "http://www.microsoft.com", "/profile"]
+      "development": ["baz", "http://www.apple.com", "/dashboard"],
+      "production" : ["bar", "http://www.microsoft.com", "/profile"]
     }.each do |mode, (expected_action, expected_url, expected_mapping)|
       test "reloads routes when configuration is changed in #{mode}" do
         controller :foo, <<-RUBY
@@ -445,7 +445,7 @@ module ApplicationTests
 
       app_file "config/routes.rb", <<-RUBY
         Rails.application.routes.draw do
-          get 'foo', :to => 'foo#index'
+          get 'foo', to: 'foo#index'
           root :to => 'foo#index'
         end
       RUBY

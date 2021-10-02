@@ -11,7 +11,7 @@ class JsonSerializationTest < ActiveModel::TestCase
     @contact.age = 16
     @contact.created_at = Time.utc(2006, 8, 1)
     @contact.awesome = true
-    @contact.preferences = { "shows" => "anime" }
+    @contact.preferences = { "shows": "anime" }
   end
 
   test "should not include root in json (class method)" do

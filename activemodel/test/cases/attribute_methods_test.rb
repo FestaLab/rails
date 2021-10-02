@@ -175,7 +175,7 @@ class AttributeMethodsTest < ActiveModel::TestCase
       alias_attribute :bar, :foo
     end
 
-    assert_equal({ "bar" => "foo" }, klass.attribute_aliases)
+    assert_equal({ "bar": "foo" }, klass.attribute_aliases)
   end
 
   test "#define_attribute_methods generates attribute methods with spaces in their names" do
@@ -217,7 +217,7 @@ class AttributeMethodsTest < ActiveModel::TestCase
 
   test "accessing a suffixed attribute" do
     m = ModelWithAttributes2.new
-    m.attributes = { "foo" => "bar" }
+    m.attributes = { "foo": "bar" }
     attrs = {}
 
     assert_equal "bar", m.foo
@@ -230,7 +230,7 @@ class AttributeMethodsTest < ActiveModel::TestCase
     ModelWithAttributes2.define_attribute_methods(:foo)
 
     m = ModelWithAttributes2.new
-    m.attributes = { "foo" => "bar" }
+    m.attributes = { "foo": "bar" }
     attrs = {}
 
     assert_equal "bar", m.foo
@@ -243,7 +243,7 @@ class AttributeMethodsTest < ActiveModel::TestCase
 
   test "should not interfere with method_missing if the attr has a private/protected method" do
     m = ModelWithAttributes2.new
-    m.attributes = { "private_method" => "<3", "protected_method" => "O_o" }
+    m.attributes = { "private_method": "<3", "protected_method": "O_o" }
 
     # dispatches to the *method*, not the attribute
     assert_equal "<3 <3",   m.send(:private_method)
@@ -262,7 +262,7 @@ class AttributeMethodsTest < ActiveModel::TestCase
 
   test "should not interfere with respond_to? if the attribute has a private/protected method" do
     m = ModelWithAttributes2.new
-    m.attributes = { "private_method" => "<3", "protected_method" => "O_o" }
+    m.attributes = { "private_method": "<3", "protected_method": "O_o" }
 
     assert_not_respond_to m, :private_method
     assert m.respond_to?(:private_method, true)
@@ -277,7 +277,7 @@ class AttributeMethodsTest < ActiveModel::TestCase
 
   test "should use attribute_missing to dispatch a missing attribute" do
     m = ModelWithAttributes2.new
-    m.attributes = { "foo" => "bar" }
+    m.attributes = { "foo": "bar" }
 
     def m.attribute_missing(match, *args, &block)
       match

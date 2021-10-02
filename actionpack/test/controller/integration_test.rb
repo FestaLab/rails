@@ -6,7 +6,7 @@ require "rails/engine"
 
 class SessionTest < ActiveSupport::TestCase
   StubApp = lambda { |env|
-    [200, { "Content-Type" => "text/html", "Content-Length" => "13" }, ["Hello, World!"]]
+    [200, { "Content-Type": "text/html", "Content-Length": "13" }, ["Hello, World!"]]
   }
 
   def setup
@@ -42,7 +42,7 @@ class SessionTest < ActiveSupport::TestCase
   end
 
   def test_get_with_env_and_headers
-    path = "/index"; params = "blah"; headers = { location: "blah" }; env = { "HTTP_X_REQUESTED_WITH" => "XMLHttpRequest" }
+    path = "/index"; params = "blah"; headers = { location: "blah" }; env = { "HTTP_X_REQUESTED_WITH": "XMLHttpRequest" }
     assert_called_with @session, :process, [:get, path, params: params, headers: headers, env: env] do
       @session.get(path, params: params, headers: headers, env: env)
     end
@@ -170,7 +170,7 @@ end
 class IntegrationTestUsesCorrectClass < ActionDispatch::IntegrationTest
   def test_integration_methods_called
     reset!
-    headers = { "Origin" => "*" }
+    headers = { "Origin": "*" }
 
     %w( get post head patch put delete options ).each do |verb|
       assert_nothing_raised { __send__(verb, "/", headers: headers) }
@@ -241,7 +241,7 @@ class IntegrationProcessTest < ActionDispatch::IntegrationTest
 
     def remove_header
       response.headers.delete params[:header]
-      head :ok, "c" => "3"
+      head :ok, "c": "3"
     end
   end
 
@@ -264,7 +264,7 @@ class IntegrationProcessTest < ActionDispatch::IntegrationTest
   def test_get_xml_rss_atom
     %w[ application/xml application/rss+xml application/atom+xml ].each do |mime_string|
       with_test_route_set do
-        get "/get", headers: { "HTTP_ACCEPT" => mime_string }
+        get "/get", headers: { "HTTP_ACCEPT": mime_string }
         assert_equal 200, status
         assert_equal "OK", status_message
         assert_response 200
@@ -301,7 +301,7 @@ class IntegrationProcessTest < ActionDispatch::IntegrationTest
       cookies["cookie_2"] = "oatmeal"
       get "/cookie_monster"
       assert_equal "cookie_1=; path=/\ncookie_3=chocolate; path=/", headers["Set-Cookie"]
-      assert_equal({ "cookie_1" => "", "cookie_2" => "oatmeal", "cookie_3" => "chocolate" }, cookies.to_hash)
+      assert_equal({ "cookie_1": "", "cookie_2" => "oatmeal", "cookie_3" => "chocolate" }, cookies.to_hash)
     end
   end
 

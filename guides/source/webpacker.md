@@ -142,7 +142,7 @@ If you need to reference Webpacker static assets from a Rails view, the assets n
 
 ```
 const images = require.context("../images", true)
-const imagePath = name => images(name, true)
+const imagePath = name: images(name, true)
 ```
 
 Static assets will be output into a directory under `public/packs/media`. For example, an image located and imported at `app/javascript/images/my-image.jpg` will be output at `public/packs/media/images/my-image-abcd1234.jpg`. To render an image tag for this image in a Rails view, use `image_pack_tag 'media/images/my-image.jpg`.

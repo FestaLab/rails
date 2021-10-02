@@ -165,13 +165,13 @@ class DirtyTest < ActiveModel::TestCase
     assert_equal({}, @model.changed_attributes)
     @model.name = "Paul"
     @model.status = "waiting"
-    assert_equal({ "name" => nil, "status" => "initialized" }, @model.changed_attributes)
+    assert_equal({ "name": nil, "status": "initialized" }, @model.changed_attributes)
 
     @model.save
 
     @model.name = "John"
     @model.status = "finished"
-    assert_equal({ "name" => "Paul", "status" => "waiting" }, @model.changed_attributes)
+    assert_equal({ "name": "Paul", "status": "waiting" }, @model.changed_attributes)
   end
 
   test "changing the same attribute multiple times retains the correct original value" do
